@@ -1,13 +1,11 @@
-import { async } from "@firebase/util";
 import { auth, googleAuthProvider } from "../lib/firebase";
-import { signInWithPopup } from 'firebase/auth'
+import { signInWithPopup , signOut } from 'firebase/auth'
+import { useContext } from 'react';
+import { UserContext } from '../lib/context';
 
 export default function EnterPage() {
-
-    const user = null;
-    const username = null;
-
-
+    
+    const { user, username } = useContext(UserContext)
 
     return (
         <main>
@@ -33,18 +31,18 @@ function SignInButton() {
     )
 }
 
-function SignOutButton(params) {
+function SignOutButton() {
     return (
-        <button onClick={() => auth.signOut()}>
+        <button onClick={() => signOut(auth)}>
             SignOut
         </button>
     )
 }
 
-function UsernameForm(params) {
+function UsernameForm() {
     return (
         <>
-            EnterPage
+            UsernameForm
         </>
     )
 }
