@@ -55,7 +55,7 @@ export async function getUserWithUsername(username) {
  * @param  {DocumentSnapshot} doc
  */
 export function postToJSON(doc) {
-  const data = getData(doc);
+  const data = doc.data();
   return {
     ...data,
     // Gotcha! firestore timestamp NOT serializable to JSON. Must convert to milliseconds
