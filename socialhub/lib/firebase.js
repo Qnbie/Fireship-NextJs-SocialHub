@@ -7,6 +7,7 @@ import {
   where,
   limit,
   getDocs,
+  Timestamp
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -30,6 +31,8 @@ export const auth = getAuth(app);
 export const googleAuthProvider = new GoogleAuthProvider();
 
 export const firestore = getFirestore(app);
+export const fromMillis = Timestamp.fromMillis;
+
 export const storage = getStorage(app);
 
 /**`
