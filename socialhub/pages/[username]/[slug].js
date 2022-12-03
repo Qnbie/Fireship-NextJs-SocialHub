@@ -25,30 +25,43 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-    // Improve my using Admin SDK to select empty docs
-    const snapshot = await getDocs(collectionGroup(firestore, 'posts'));
-  
-    const paths = snapshot.docs.map((doc) => {
-      const { slug, username } = doc.data();
-      return {
-        params: { username, slug },
-      };
-    });
-  
+  // Improve my using Admin SDK to select empty docs
+  const snapshot = await getDocs(collectionGroup(firestore, "posts"));
+
+  const paths = snapshot.docs.map((doc) => {
+    const { slug, username } = doc.data();
     return {
-      // must be in this format:
-      // paths: [
-      //   { params: { username, slug }}
-      // ],
-      paths,
-      fallback: 'blocking',
+      params: { username, slug },
     };
-  }
+  });
+
+  return {
+    // must be in this format:
+    // paths: [
+    //   { params: { username, slug }}
+    // ],
+    paths,
+    fallback: "blocking",
+  };
+}
 
 export default function PostPage() {
-    return (
-        <main className={styles.container}>
-    
-        </main>
-      );
+  const postRef = firestore.doc(props.path);
+  const [realtimePost] = useDocumentData(postRef);
+
+  const post = realtimePost || props.post;
+
+  return (
+    <main className={styles.container}>
+      <section>
+        <PostContent post={post} />
+      </section>
+
+      <aside className="card">
+        <p>
+          <strong>{post.heartCount || 0} 🤍</strong>
+        </p>
+      </aside>
+    </main>
+  );
 }
