@@ -1,10 +1,18 @@
 import Link from "next/link"
 import { useContext } from 'react';
 import { UserContext } from '../lib/context';
+import { auth } from '../lib/firebase';
 
 export default function Navbar() {
     const { user, username } = useContext(UserContext)
     
+
+
+    const signOut =  () => {
+        auth.signOut();
+        router.reload();
+      }
+
     return(
         <nav className="navbar">
             <ul>
@@ -22,7 +30,7 @@ export default function Navbar() {
                         </Link>
                     </li>
                     <li>
-                        <Link href={'/${username}'}>
+                        <Link href={username}>
                             <img src={user?.photoURL}/>
                         </Link>
                     </li>
