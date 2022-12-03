@@ -1,10 +1,17 @@
 import UserProfile from "../../components/UserProfile";
 import PostFeed from "../../components/PostFeed";
-import { getUserWithUsername, postToJSON, firestore} from '../../lib/firebase';
-import { query, collection, where, orderBy, limit} from 'firebase/firestore'
+import { getUserWithUsername, postToJSON, firestore } from "../../lib/firebase";
+import {
+  query,
+  collection,
+  where,
+  orderBy,
+  limit,
+  getDocs,
+} from "firebase/firestore";
 
 export async function getServerSideProps({ prop }) {
-  const username = prop ;
+  const username = prop;
 
   const userDoc = await getUserWithUsername(username);
 
@@ -18,15 +25,15 @@ export async function getServerSideProps({ prop }) {
   let user = null;
   let posts = null;
 
-  
   if (userDoc) {
     user = userDoc.data();
     const postsQuery = query(
-      collection(firestore, userDoc.ref, 'posts'),
-      where('published', '==', true),
-      orderBy('createdAt', 'desc'),
-      limit(5))
-    posts = (await postsQuery.get()).docs.map(postToJSON);
+      collection(firestore, userDoc.ref.path, "posts"),
+      where("published", "==", true),
+      orderBy("createdAt", "desc"),
+      limit(5)
+    );
+    posts = (await getDocs(postsQuery)).docs.map(postToJSON);
   }
 
   return {
