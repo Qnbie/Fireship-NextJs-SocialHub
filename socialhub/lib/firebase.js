@@ -43,7 +43,7 @@ export async function getUserWithUsername(username) {
   const usersRef = collection(firestore, "users");
   const usersQuery = query(
     usersRef,
-    where("username", "==", "hurka"),
+    where("username", "==", username),
     limit(1)
   );
   const userDoc = (await getDocs(usersQuery)).docs[0];

@@ -10,6 +10,7 @@ import Link from "next/link";
 
 export async function getStaticProps({ params }) {
   const { username, slug } = params;
+
   const userDoc = await getUserWithUsername(username);
 
   let post;
