@@ -12,17 +12,9 @@ import {
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAITbwHgl2sHajQvq6SdkIGtEIhPGUm-pw",
 
-  authDomain: "qnlab-socialhub.firebaseapp.com",
+  TODO: Paste your firebase config data here
 
-  projectId: "qnlab-socialhub",
-
-  storageBucket: "qnlab-socialhub.appspot.com",
-
-  messagingSenderId: "858225706517",
-
-  appId: "1:858225706517:web:2bb461076942375c96b01c",
 };
 
 const app = initializeApp(firebaseConfig);
