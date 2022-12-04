@@ -4,6 +4,9 @@ import Metatags from "../../components/Metatags";
 import { firestore, getUserWithUsername, postToJSON } from "../../lib/firebase";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { collectionGroup, doc, getDoc, getDocs } from "firebase/firestore";
+import HeartButton from "../../components/HeartButton";
+import AuthCheck from "../../components/AuthCheck";
+import Link from "next/link";
 
 export async function getStaticProps({ params }) {
   const { username, slug } = params;
@@ -55,7 +58,7 @@ export default function PostPage(props) {
   return (
     <main className={styles.container}>
       <Metatags title={post.title} description={post.title} />
-      
+
       <section>
         <PostContent post={post} />
       </section>
@@ -65,6 +68,15 @@ export default function PostPage(props) {
           <strong>{post.heartCount || 0} 🤍</strong>
         </p>
       </aside>
+      <AuthCheck
+        fallback={
+          <Link href="/enter">
+            <button>💗 Sign Up</button>
+          </Link>
+        }
+      >
+        <HeartButton postRef={postRef} />
+      </AuthCheck>
     </main>
   );
 }
