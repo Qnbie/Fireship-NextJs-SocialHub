@@ -13,7 +13,7 @@ import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
 
-  TODO: Paste your firebase config data here
+  // TODO: Paste your firebase config data here
 
 };
 
