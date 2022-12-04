@@ -1,7 +1,9 @@
 export default function AdminPostsPage() {
-    return(
-        <main>
-            AdminPostsPage
-        </main>
-    )
+  return (
+    <main>
+      <AuthCheck>
+        AdminPostsPage
+      </AuthCheck>
+    </main>
+  );
 }

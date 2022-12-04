@@ -3,7 +3,7 @@ import PostContent from "../../components/PostContent";
 import Metatags from "../../components/Metatags";
 import { firestore, getUserWithUsername, postToJSON } from "../../lib/firebase";
 import { useDocumentData } from "react-firebase-hooks/firestore";
-import { collectionGroup, doc, getDocs } from "firebase/firestore";
+import { collectionGroup, doc, getDoc, getDocs } from "firebase/firestore";
 
 export async function getStaticProps({ params }) {
   const { username, slug } = params;
@@ -14,9 +14,9 @@ export async function getStaticProps({ params }) {
 
   if (userDoc) {
     const postRef = doc(firestore, "posts", slug);
-    post = postToJSON(await getDocs(postRef));
+    post = postToJSON(await getDoc(postRef));
 
-    path = postRef.path;
+    path = postRef.ref.path;
   }
 
   return {
@@ -32,7 +32,7 @@ export async function getStaticPaths() {
   const paths = snapshot.docs.map((doc) => {
     const { slug, username } = doc.data();
     return {
-      params: { username, slug },
+      params: { username: String(username), slug },
     };
   });
 
