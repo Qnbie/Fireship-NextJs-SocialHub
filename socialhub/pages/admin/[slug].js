@@ -1,7 +1,7 @@
 import styles from "../../styles/Admin.module.css";
 import AuthCheck from "../../components/AuthCheck";
 import { firestore, auth } from "../../lib/firebase";
-import { doc, serverTimestamp } from "firebase/firestore";
+import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
 
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -27,7 +27,7 @@ function PostManager() {
   const { slug } = router.query;
 
   const postRef = doc(firestore, "users", auth.currentUser.uid, "posts", slug);
-  const [post] = useDocumentData(postRef.ref);
+  const [post] = useDocumentData(postRef);
 
   return (
     <main className={styles.container}>
@@ -66,7 +66,7 @@ function PostForm({ defaultValues, postRef, preview }) {
   });
 
   const updatePost = async ({ content, published }) => {
-    await postRef.update({
+    await updateDoc(postRef,{
       content,
       published,
       updatedAt: serverTimestamp(),
@@ -86,14 +86,13 @@ function PostForm({ defaultValues, postRef, preview }) {
       )}
 
       <div className={preview ? styles.hidden : styles.controls}>
-        <textarea name="content" ref={register}></textarea>
+        <textarea {...register('content')}></textarea>
 
         <fieldset>
           <input
             className={styles.checkbox}
-            name="published"
             type="checkbox"
-            ref={register}
+            {...register('published')}
           />
           <label>Published</label>
         </fieldset>
