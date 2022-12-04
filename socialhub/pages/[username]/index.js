@@ -11,7 +11,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 
-export async function getServerSideProps({ prop }) {
+export async function getServerSideProps( prop ) {
   const { username } = prop;
 
   const userDoc = await getUserWithUsername(username);
