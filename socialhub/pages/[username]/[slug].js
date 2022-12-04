@@ -7,6 +7,8 @@ import { collectionGroup, doc, getDoc, getDocs } from "firebase/firestore";
 import HeartButton from "../../components/HeartButton";
 import AuthCheck from "../../components/AuthCheck";
 import Link from "next/link";
+import { useContext } from 'react';
+import { UserContext } from '../../lib/context';
 
 export async function getStaticProps(context) {
   const { username, slug } = context.params;
@@ -56,10 +58,12 @@ export default function PostPage(props) {
 
   const post = realtimePost || props.post;
 
+  const { user: currentUser } = useContext(UserContext);
+
   return (
     <main className={styles.container}>
       <Metatags title={post.title} description={post.title} />
-
+      
       <section>
         <PostContent post={post} />
       </section>
@@ -68,16 +72,23 @@ export default function PostPage(props) {
         <p>
           <strong>{post.heartCount || 0} 🤍</strong>
         </p>
-      </aside>
-      <AuthCheck
-        fallback={
-          <Link href="/enter">
-            <button>💗 Sign Up</button>
+
+        <AuthCheck
+          fallback={
+            <Link href="/enter">
+              <button>💗 Sign Up</button>
+            </Link>
+          }
+        >
+          <HeartButton postRef={postRef} />
+        </AuthCheck>
+
+        {currentUser?.uid === post.uid && (
+          <Link href={`/admin/${post.slug}`}>
+            <button className="btn-blue">Edit Post</button>
           </Link>
-        }
-      >
-        <HeartButton postRef={postRef} />
-      </AuthCheck>
+        )}
+      </aside>
     </main>
   );
 }
