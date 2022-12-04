@@ -8,8 +8,8 @@ import HeartButton from "../../components/HeartButton";
 import AuthCheck from "../../components/AuthCheck";
 import Link from "next/link";
 
-export async function getStaticProps({ params }) {
-  const { username, slug } = params;
+export async function getStaticProps(context) {
+  const { username, slug } = context.params;
 
   const userDoc = await getUserWithUsername(username);
 
@@ -17,7 +17,7 @@ export async function getStaticProps({ params }) {
   let path;
 
   if (userDoc) {
-    const postRef = doc(firestore, "posts", slug);
+    const postRef = doc(firestore, userDoc.ref.path, "posts", slug);
     post = postToJSON(await getDoc(postRef));
 
     path = postRef.path;
